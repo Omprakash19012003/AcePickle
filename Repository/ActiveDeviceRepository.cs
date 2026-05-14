@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using softskiller_chat_api.Data;
-using softskiller_chat_api.Models;
+using acepickle_chat_api.Data;
+using acepickle_chat_api.Models;
 
-namespace softskiller_chat_api.Repository
+namespace acepickle_chat_api.Repository
 {
     public class ActiveDeviceRepository : IActiveDeviceRepository
     {

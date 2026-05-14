@@ -1,4 +1,4 @@
-namespace softskiller_chat_api.Dto
+namespace acepickle_chat_api.Dto
 {
     public class DTORoomResponse
     {

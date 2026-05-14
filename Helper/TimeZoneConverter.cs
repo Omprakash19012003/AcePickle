@@ -1,7 +1,7 @@
 
-using softskiller_chat_api.Services;
+using acepickle_chat_api.Services;
 
-namespace softskiller_chat_api.Helper
+namespace acepickle_chat_api.Helper
 {
     public class TimeZoneConverter
     {
@@ -62,20 +62,20 @@ namespace softskiller_chat_api.Helper
                 dateTime = DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);
             else if (dateTime.Kind == DateTimeKind.Local)
                 dateTime = dateTime.ToUniversalTime();
-        
+
             var timeZone = await _timezoneService.GetTimezoneById(timeZoneId);
-        
+
             char sign = timeZone.Offset[3];
             int hoursOffset = int.Parse(timeZone.Offset.Substring(4, 2));
             int minutesOffset = int.Parse(timeZone.Offset.Substring(7, 2));
-        
+
             int totalMinutes = hoursOffset * 60 + minutesOffset;
-        
+
             if (sign == '+')
                 dateTime = dateTime.AddMinutes(totalMinutes);
             else
                 dateTime = dateTime.AddMinutes(-totalMinutes);
-        
+
             return DateTime.SpecifyKind(dateTime, DateTimeKind.Unspecified);
         }
 

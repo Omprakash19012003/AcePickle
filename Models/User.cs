@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace softskiller_chat_api.Models
+namespace acepickle_chat_api.Models
 {
     public class User : Created
     {
@@ -20,7 +20,7 @@ namespace softskiller_chat_api.Models
         [System.Text.Json.Serialization.JsonIgnore]
         public string? Role { get; set; }
         public string? DeviceId { get; set; }
-        
+
         [System.Text.Json.Serialization.JsonIgnore]
         public string? Folder { get; set; }
 
@@ -32,10 +32,10 @@ namespace softskiller_chat_api.Models
 
         [System.Text.Json.Serialization.JsonIgnore]
         public sbyte? TFA_Mobile { get; set; }
-        
+
         [System.Text.Json.Serialization.JsonIgnore]
         public sbyte? TFA_Email { get; set; }
-   
+
         [System.Text.Json.Serialization.JsonIgnore]
         public string? RefreshToken { get; set; }
 
@@ -47,9 +47,9 @@ namespace softskiller_chat_api.Models
 
         [System.Text.Json.Serialization.JsonIgnore]
         public DateTime? PasswordTokenCreated { get; set; }
-         
+
         [System.Text.Json.Serialization.JsonIgnore]
-        public DateTime? Last_Login {get; set; }
+        public DateTime? Last_Login { get; set; }
 
         [System.Text.Json.Serialization.JsonIgnore]
         public sbyte? ProfileCompleation { get; set; }
@@ -91,12 +91,12 @@ namespace softskiller_chat_api.Models
         public string? PermanentAddress { get; set; }
         public string? PermanentCity { get; set; }
         public string? PermanentState { get; set; }
-        public string? PermanentAddressPincode {get; set;}
+        public string? PermanentAddressPincode { get; set; }
         public string? PermanentCountry { get; set; }
         public string? CurrentAddress { get; set; }
         public string? CurrentCity { get; set; }
         public string? CurrentState { get; set; }
-        public string? CurrentAddressPincode { get; set;}
+        public string? CurrentAddressPincode { get; set; }
         public string? CurrentCountry { get; set; }
         public DateTime? DOR { get; set; }
         public string? Remarks { get; set; }

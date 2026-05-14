@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace softskiller_chat_api.Models
+namespace acepickle_chat_api.Models
 {
     public class ActiveDevices
     {

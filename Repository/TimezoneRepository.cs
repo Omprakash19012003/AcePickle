@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using softskiller_chat_api.Data;
-using softskiller_chat_api.Models;
+using acepickle_chat_api.Data;
+using acepickle_chat_api.Models;
 
-namespace softskiller_chat_api.Repository
+namespace acepickle_chat_api.Repository
 {
     public class TimezoneRepository : ITimezoneRepository
     {

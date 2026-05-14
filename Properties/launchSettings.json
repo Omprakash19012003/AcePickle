@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "softskiller_chat_api": {
+    "acepickle_chat_api": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

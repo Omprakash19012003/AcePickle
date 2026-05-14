@@ -3,14 +3,14 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using skiller_api.Helper;
-using softskiller_chat_api.Helper;
-using softskiller_chat_api.Models;
-using softskiller_chat_api.Service;
-using static softskiller_chat_api.Dto.DTORoomResponse;
+using acepickle_api.Helper;
+using acepickle_chat_api.Helper;
+using acepickle_chat_api.Models;
+using acepickle_chat_api.Service;
+using static acepickle_chat_api.Dto.DTORoomResponse;
 
-namespace softskiller_chat_api.Controllers
-{   
+namespace acepickle_chat_api.Controllers
+{
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
@@ -21,12 +21,12 @@ namespace softskiller_chat_api.Controllers
         {
             _chatroomService = chatRoomService;
         }
-        
+
         [HttpGet("GetAllRoomsByUserId")]
         public async Task<IEnumerable<object>> GetAllRoomsByUserId(string? searchKeyword)
         {
             var userId = await Utils.GetUserIDByCliam(HttpContext);
-            
+
             return await _chatroomService.GetAllRoomsByUserId(userId, searchKeyword);
         }
 
@@ -34,7 +34,7 @@ namespace softskiller_chat_api.Controllers
         public async Task<IEnumerable> GetAllGroupsByUserId(int? batchId, string? searchKeyword)
         {
             var userId = await Utils.GetUserIDByCliam(HttpContext);
-            
+
             return await _chatroomService.GetAllGroupsByUserId(userId, batchId, searchKeyword);
         }
 
@@ -48,13 +48,13 @@ namespace softskiller_chat_api.Controllers
 
         [HttpGet("GetAllUsersByRoomId")]
         public async Task<IEnumerable> GetAllUsersByRoomId(string groupId)
-        {            
+        {
             return await _chatroomService.GetAllUsersByRoomId(groupId);
         }
 
         [HttpPut("UpdateChatRoomById/{roomid}")]
         public async Task<ActionResult> UpdateChatRoomById(string roomid, int batchId, string roomName)
-        {     
+        {
             ChatRoom _result = await _chatroomService.GetChatRoomByRoomId(roomid);
 
             if (_result != null)
@@ -63,7 +63,7 @@ namespace softskiller_chat_api.Controllers
                 _result.RoomName = roomName;
 
                 await _chatroomService.UpdateChatRoom(_result);
-                
+
                 return Ok(new DTOCommonResponse { Status = true, Message = Constants.RecordUpdated });
             }
             return Ok(new DTOCommonResponse { Status = false, Message = Constants.InvalidInput });
@@ -78,9 +78,9 @@ namespace softskiller_chat_api.Controllers
 
             if (remove > 0)
             {
-                return new DTORoomCreatedResponse { Message = "User Removed Successfully..", RoomId = roomid};
+                return new DTORoomCreatedResponse { Message = "User Removed Successfully..", RoomId = roomid };
             }
-            return new DTORoomCreatedResponse { Message = "Something went wrong", RoomId = null};
+            return new DTORoomCreatedResponse { Message = "Something went wrong", RoomId = null };
         }
 
         [HttpPost("AddNewUserToGroup/{roomid}")]
@@ -92,12 +92,12 @@ namespace softskiller_chat_api.Controllers
 
             if (addtoRoom > 0)
             {
-                return new DTORoomCreatedResponse { Message = "User Added Successfully..", RoomId = roomid};
+                return new DTORoomCreatedResponse { Message = "User Added Successfully..", RoomId = roomid };
             }
 
             return new DTORoomCreatedResponse { Message = addtoRoom == -1 ? "User already exist in Group.." : "Something went wrong", RoomId = roomid };
         }
-        
+
         [HttpPut("ReadAllMessages/{roomid}")]
         public async Task<DTOCommonResponse> ReadAllMessages(string roomid)
         {

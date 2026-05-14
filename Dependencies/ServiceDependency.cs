@@ -1,10 +1,10 @@
 
-using softskiller_chat_api.Helper;
-using softskiller_chat_api.Repository;
-using softskiller_chat_api.Service;
-using softskiller_chat_api.Services;
+using acepickle_chat_api.Helper;
+using acepickle_chat_api.Repository;
+using acepickle_chat_api.Service;
+using acepickle_chat_api.Services;
 
-namespace softskiller_chat_api.Dependencies
+namespace acepickle_chat_api.Dependencies
 {
     public static class ServiceDependency
     {

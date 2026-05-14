@@ -2,16 +2,16 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using softskiller_chat_api.Helper;
+using acepickle_chat_api.Helper;
 
-namespace softskiller_chat_api.Helper
+namespace acepickle_chat_api.Helper
 {
     public class JwtTokenService : IJwtTokenService
     {
 
         public JwtTokenService()
         {
-             
+
         }
         // public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
         // {

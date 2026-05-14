@@ -1,11 +1,11 @@
 using System.Collections;
 using Microsoft.AspNetCore.SignalR;
-using softskiller_chat_api.Helper;
-using softskiller_chat_api.Models;
-using softskiller_chat_api.Repository;
-using static softskiller_chat_api.Dto.DTORoomResponse;
+using acepickle_chat_api.Helper;
+using acepickle_chat_api.Models;
+using acepickle_chat_api.Repository;
+using static acepickle_chat_api.Dto.DTORoomResponse;
 
-namespace softskiller_chat_api.Service
+namespace acepickle_chat_api.Service
 {
     public class ChatRoomService : IChatRoomService
     {
@@ -147,8 +147,8 @@ namespace softskiller_chat_api.Service
                 CreatedDate = DateTime.Now
             };
 
-           var savedMessage = await AddMessages(chatMessage);
-           return savedMessage.Id;
+            var savedMessage = await AddMessages(chatMessage);
+            return savedMessage.Id;
         }
 
         public async Task<int> AddNewUserToGroup(string roomId, string roomName, int userId, int contextUserId)
@@ -271,7 +271,7 @@ namespace softskiller_chat_api.Service
             var messages = await _chatroomrepository.GetUnreadMessages(roomId, senderId);
 
             messages.ForEach(m => m.Status = 1);
-            
+
             return await _chatroomrepository.UpdateMessages(messages);
         }
         public async Task<int> SendPushNotification(string roomId, int senderId, string title, string body)
@@ -290,10 +290,10 @@ namespace softskiller_chat_api.Service
 
             var notificationData = new NotificationData
             {
-                RoomType  = roomMapping.RoomType,   // 1 = Private, 2 = Group
-                RoomId    = roomId,
-                SenderId  = senderId,
-                BatchId   = roomMapping.BatchId,    
+                RoomType = roomMapping.RoomType,   // 1 = Private, 2 = Group
+                RoomId = roomId,
+                SenderId = senderId,
+                BatchId = roomMapping.BatchId,
             };
 
             return await _notificationService.SendNotification(deviceTokens, title, body, notificationData);
