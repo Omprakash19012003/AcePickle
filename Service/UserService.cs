@@ -1,11 +1,11 @@
-using softskiller_chat_api.Models;
-using softskiller_chat_api.Repository;
-using static softskiller_chat_api.Dto.DTORoomResponse;
+using acepickle_chat_api.Models;
+using acepickle_chat_api.Repository;
+using static acepickle_chat_api.Dto.DTORoomResponse;
 
-namespace softskiller_chat_api.Service
+namespace acepickle_chat_api.Service
 {
     public class UserService : IUserService
-    {   
+    {
         private readonly IUserRepository _userRepository;
         public UserService(IUserRepository userRepository)
         {
@@ -29,7 +29,7 @@ namespace softskiller_chat_api.Service
         // ActiveUser Service Related
         public async Task<int> AddActiveUser(ActiveUser activeUser)
         {
-             return await _userRepository.AddActiveUser(activeUser);
+            return await _userRepository.AddActiveUser(activeUser);
         }
 
         public async Task<int> UpdateActiveUser(ActiveUser activeUser)
@@ -50,7 +50,7 @@ namespace softskiller_chat_api.Service
         {
             return await _userRepository.IsUserExist(userid);
         }
-        
+
         public async Task<string> GetConnectionIdByuserId(int userid)
         {
             return await _userRepository.GetConnectionIdByuserId(userid);
@@ -66,4 +66,4 @@ namespace softskiller_chat_api.Service
         }
     }
 
-}      
+}

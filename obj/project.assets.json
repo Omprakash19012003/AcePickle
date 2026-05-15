@@ -149,9 +149,7 @@
             "related": ".xml"
           }
         },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
+        "frameworkReferences": ["Microsoft.AspNetCore.App"]
       },
       "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
         "type": "package",
@@ -1095,9 +1093,7 @@
             "related": ".pdb;.xml"
           }
         },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
+        "frameworkReferences": ["Microsoft.AspNetCore.App"]
       },
       "Swashbuckle.AspNetCore.SwaggerGen/6.2.3": {
         "type": "package",
@@ -1127,9 +1123,7 @@
             "related": ".pdb;.xml"
           }
         },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
+        "frameworkReferences": ["Microsoft.AspNetCore.App"]
       },
       "System.CodeDom/7.0.0": {
         "type": "package",
@@ -4484,9 +4478,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\supreme\\Documents\\Om\\chat-app\\chat-app\\softskiller-chat-api.csproj",
-      "projectName": "softskiller-chat-api",
-      "projectPath": "C:\\Users\\supreme\\Documents\\Om\\chat-app\\chat-app\\softskiller-chat-api.csproj",
+      "projectUniqueName": "C:\\Users\\supreme\\Documents\\Om\\chat-app\\chat-app\\acepickle-chat-api.csproj",
+      "projectName": "acepickle-chat-api",
+      "projectPath": "C:\\Users\\supreme\\Documents\\Om\\chat-app\\chat-app\\acepickle-chat-api.csproj",
       "packagesPath": "C:\\Users\\supreme\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\supreme\\Documents\\Om\\chat-app\\chat-app\\obj\\",
       "projectStyle": "PackageReference",
@@ -4498,9 +4492,7 @@
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
-      "originalTargetFrameworks": [
-        "net8.0"
-      ],
+      "originalTargetFrameworks": ["net8.0"],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "C:\\Program Files\\dotnet\\library-packs": {},
@@ -4513,9 +4505,7 @@
         }
       },
       "warningProperties": {
-        "warnAsError": [
-          "NU1605"
-        ]
+        "warnAsError": ["NU1605"]
       },
       "restoreAuditProperties": {
         "enableAudit": "true",

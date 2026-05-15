@@ -1,12 +1,12 @@
-using softskiller_chat_api.Models;
-using static softskiller_chat_api.Dto.DTORoomResponse;
+using acepickle_chat_api.Models;
+using static acepickle_chat_api.Dto.DTORoomResponse;
 
-namespace softskiller_chat_api.Service
+namespace acepickle_chat_api.Service
 {
     public interface IUserService
     {
-        Task<string> GetUserNamebyId(int userId);  
-        Task<string> GetUserPicturebyId(int userId);  
+        Task<string> GetUserNamebyId(int userId);
+        Task<string> GetUserPicturebyId(int userId);
         Task<(string UserName, string ProfilePicture)> GetUserDetailsById(int userId);
 
         //ActiveUser service Related

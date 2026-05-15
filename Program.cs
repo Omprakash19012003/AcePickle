@@ -1,5 +1,5 @@
-using softskiller_chat_api.ChatHub;
-using softskiller_chat_api.Dependencies;
+using acepickle_chat_api.ChatHub;
+using acepickle_chat_api.Dependencies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +14,7 @@ builder.Services.AddServiceDependency();
 
 var app = builder.Build();
 
-app.UseAppEnvironment(); 
+app.UseAppEnvironment();
 app.UseAppMiddleware();
 
 app.MapHub<ChatHub>("/chatHub");

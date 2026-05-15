@@ -1,27 +1,27 @@
 
-namespace softskiller_chat_api.Dependencies
+namespace acepickle_chat_api.Dependencies
 {
-public static class ApplicationBuilder
-{
-    public static IApplicationBuilder UseAppEnvironment(this IApplicationBuilder app)
+    public static class ApplicationBuilder
     {
-        var env = app.ApplicationServices.GetService<IHostEnvironment>();
-        if (env.IsDevelopment())
+        public static IApplicationBuilder UseAppEnvironment(this IApplicationBuilder app)
         {
-            app.UseSwagger();
-            app.UseSwaggerUI();
+            var env = app.ApplicationServices.GetService<IHostEnvironment>();
+            if (env.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+            return app;
         }
-        return app;
-    }
 
-    public static IApplicationBuilder UseAppMiddleware(this IApplicationBuilder app)
-    {
-        app.UseHttpsRedirection();
-        app.UseCors("defaultCorsPolicy");
-        app.UseAuthentication();
-        app.UseAuthorization();
+        public static IApplicationBuilder UseAppMiddleware(this IApplicationBuilder app)
+        {
+            app.UseHttpsRedirection();
+            app.UseCors("defaultCorsPolicy");
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-        return app;
+            return app;
+        }
     }
-}
 }

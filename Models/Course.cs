@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace softskiller_chat_api.Models
+namespace acepickle_chat_api.Models
 {
     public class CourseMapping : Created
     {

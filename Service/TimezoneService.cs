@@ -1,10 +1,10 @@
 
 
-using softskiller_chat_api.Models;
-using softskiller_chat_api.Repository;
-using softskiller_chat_api.Services;
+using acepickle_chat_api.Models;
+using acepickle_chat_api.Repository;
+using acepickle_chat_api.Services;
 
-namespace softskiller_chat_api.Service
+namespace acepickle_chat_api.Service
 {
     public class TimezoneService : ITimezoneService
     {

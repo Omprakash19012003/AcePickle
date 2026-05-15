@@ -1,4 +1,4 @@
-namespace softskiller_chat_api;
+namespace acepickle_chat_api;
 
 public class WeatherForecast
 {
@@ -10,5 +10,5 @@ public class WeatherForecast
 
     public string? Summary { get; set; }
 
-    
+
 }

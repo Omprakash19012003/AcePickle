@@ -2,13 +2,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Options;
-using softskiller_chat_api.Dto;
-using softskiller_chat_api.Helper;
-using softskiller_chat_api.Models;
-using softskiller_chat_api.Service;
-using static softskiller_chat_api.Dto.DTORoomResponse;
+using acepickle_chat_api.Dto;
+using acepickle_chat_api.Helper;
+using acepickle_chat_api.Models;
+using acepickle_chat_api.Service;
+using static acepickle_chat_api.Dto.DTORoomResponse;
 
-namespace softskiller_chat_api.ChatHub
+namespace acepickle_chat_api.ChatHub
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ChatHub : Hub
@@ -82,7 +82,7 @@ namespace softskiller_chat_api.ChatHub
                     UserId = initiatedUserid,
                     RoomType = 1,
                     Status = 1,
-                    CreatedDate = nowForInitiatedUser 
+                    CreatedDate = nowForInitiatedUser
                 };
 
                 await _chatroomService.ChatRoomMap(roomMapping);
@@ -120,19 +120,20 @@ namespace softskiller_chat_api.ChatHub
                     RoomType = 1,
                     UserStatus = userStatus.UserStatus, // Active for Online
                     CreatedDate = nowForInitiatedUser,
-                    LastMessageDetails = new LastMessageDetails{
-                            RoomId = roomDetail.RoomId,
-                            UserId = initiatedUserid,
-                            Message = $"{requestedUsername} has joined the Chat.",
-                            CreatedDate = nowForInitiatedUser.ToString("yyyy-MM-ddTHH:mm:ss")
-                        }
+                    LastMessageDetails = new LastMessageDetails
+                    {
+                        RoomId = roomDetail.RoomId,
+                        UserId = initiatedUserid,
+                        Message = $"{requestedUsername} has joined the Chat.",
+                        CreatedDate = nowForInitiatedUser.ToString("yyyy-MM-ddTHH:mm:ss")
+                    }
                 };
                 ConnectedUsers.Add(user);
 
                 var reqUserConnectionId = await _userService.GetConnectionIdByuserId(requestedUserId);
 
                 var InitiatedUsername = await _userService.GetUserNamebyId(initiatedUserid);
-    
+
                 var InitiatedUserImageUrl = await _userService.GetUserPicturebyId(initiatedUserid);
 
                 if (reqUserConnectionId != null)
@@ -144,7 +145,7 @@ namespace softskiller_chat_api.ChatHub
                     .GetCurrentTimeByZoneId(DateTime.UtcNow, (int)RequestedUserInfo.TimeZoneId);
 
 
-                     /*Send new room details to the Requested User*/
+                    /*Send new room details to the Requested User*/
 
                     var clientuser = new SendNewuser
                     {
@@ -164,7 +165,7 @@ namespace softskiller_chat_api.ChatHub
                             CreatedDate = requestedLocalTime.ToString("yyyy-MM-ddTHH:mm:ss")
                         }
                     };
-    
+
                     await Clients.Client(reqUserConnectionId).SendAsync("NewUser", clientuser);
 
                     var messages = new List<Messages>();
@@ -174,14 +175,14 @@ namespace softskiller_chat_api.ChatHub
                         Message = $"{InitiatedUsername} has joined the Chat.",
                         CreatedDate = requestedLocalTime.ToString("yyyy-MM-ddTHH:mm:ss")
                     });
-    
+
                     var messageResponse = new MessageResponse
                     {
                         RoomId = roomDetail.RoomId,
                         RoomName = "",
                         Messages = messages
                     };
-        
+
                     await Clients.Client(reqUserConnectionId).SendAsync("ReceiveMessage", messageResponse);
 
                 }
@@ -209,49 +210,49 @@ namespace softskiller_chat_api.ChatHub
 
         // CreateGroup -- Which is used to Create a Group with Multiple user's by their userId's, When invoked in client side(Group Chat) .
         public async Task<DTORoomResponse.DTORoomCreatedResponse> CreateGroup(string roomName, int? batchId, List<int> userids)
-        {   
+        {
             int userId = int.Parse(Context.User.FindFirst("id").Value);
 
             if (roomName != null && userids != null)
             {
                 Guid roomID = Guid.NewGuid();
-        
+
                 var utcNow = DateTime.UtcNow;
-        
+
                 var roomDetail = new ChatRoom
                 {
                     RoomId = roomID.ToString(),
                     BatchId = (batchId != null || batchId != 0) ? batchId : 0,
                     RoomName = roomName,
-                    CreatedDate = utcNow 
+                    CreatedDate = utcNow
                 };
 
                 await _chatroomService.AddChatRoom(roomDetail);
 
                 foreach (var uId in userids)
-                {   
+                {
                     // Fetching ConnectionId from the ActiveUsers table.
                     var userConnectionId = await _userService.GetConnectionIdByuserId(uId);
-        
+
                     // Convert UTC to user's local time for socket
                     var userInfo = await _userService.IsUserExist(uId);
                     var localTime = await _timezoneConverterService.GetCurrentTimeByZoneId(utcNow, (int)userInfo.TimeZoneId);
-        
+
                     if (userConnectionId != null)
                     {
                         await Groups.AddToGroupAsync(userConnectionId, roomID.ToString());
-    
-                         /*Send new group details to the Requested User*/
-        
+
+                        /*Send new group details to the Requested User*/
+
                         var clientGroup = new SendNewGroup
                         {
                             ChatRoomId = roomDetail.RoomId,
                             ChatRoomName = roomName,
                             GroupUsers = null,
                             RoomType = 2,
-                            CreatedDate = localTime 
+                            CreatedDate = localTime
                         };
-        
+
                         await Clients.Client(userConnectionId).SendAsync("NewGroup", clientGroup);
 
                         var messages = new List<Messages>
@@ -263,16 +264,16 @@ namespace softskiller_chat_api.ChatHub
                                 CreatedDate = localTime.ToString("yyyy-MM-ddTHH:mm:ss") // ✅ user local time
                             }
                         };
-        
+
                         var messageResponse = new MessageResponse
                         {
                             RoomId = roomDetail.RoomId,
                             RoomName = roomName,
                             Messages = messages
                         };
-            
+
                         await Clients.Client(userConnectionId).SendAsync("ReceiveMessage", messageResponse);
-    
+
                     }
 
                     var roomMapping = new ChatRoomMapping
@@ -283,7 +284,7 @@ namespace softskiller_chat_api.ChatHub
                         Status = 1,
                         CreatedDate = utcNow // ✅ UTC
                     };
-    
+
                     await _chatroomService.ChatRoomMap(roomMapping);
 
                 }
@@ -298,11 +299,11 @@ namespace softskiller_chat_api.ChatHub
                 };
                 await _chatroomService.AddMessages(chatMessage);
 
-            return new DTORoomResponse.DTORoomCreatedResponse { Message = "Group Created Successfully..", RoomId = roomDetail.RoomId }; 
+                return new DTORoomResponse.DTORoomCreatedResponse { Message = "Group Created Successfully..", RoomId = roomDetail.RoomId };
 
             }
-          return new DTORoomResponse.DTORoomCreatedResponse { Message = "Invalid Input", RoomId = "" }; 
-  
+            return new DTORoomResponse.DTORoomCreatedResponse { Message = "Invalid Input", RoomId = "" };
+
         }
 
         // AddNewUsertoGroup -- which is used for Add New user to the Group by the userid, invoked from client side(Group chat).
@@ -314,9 +315,9 @@ namespace softskiller_chat_api.ChatHub
 
             if (addtoRoom > 0)
             {
-                return new DTORoomCreatedResponse { Message = "User Added Successfully..", RoomId = roomId};
+                return new DTORoomCreatedResponse { Message = "User Added Successfully..", RoomId = roomId };
             }
-            return new DTORoomCreatedResponse { Message = addtoRoom == -1 ? "User already exist in Group.." : "Something went wrong", RoomId = roomId};
+            return new DTORoomCreatedResponse { Message = addtoRoom == -1 ? "User already exist in Group.." : "Something went wrong", RoomId = roomId };
         }
 
         // RemoveUserFromGroup -- Used to remove the particular user from the group.
@@ -328,9 +329,9 @@ namespace softskiller_chat_api.ChatHub
 
             if (remove > 0)
             {
-                return new DTORoomCreatedResponse { Message = "User Removed Successfully..", RoomId = roomId};
+                return new DTORoomCreatedResponse { Message = "User Removed Successfully..", RoomId = roomId };
             }
-            return new DTORoomCreatedResponse { Message = "Something went wrong", RoomId = null};
+            return new DTORoomCreatedResponse { Message = "Something went wrong", RoomId = null };
         }
 
         public async Task DeleteGroup(string roomId)
@@ -340,15 +341,15 @@ namespace softskiller_chat_api.ChatHub
 
         // Method will be invoked in client side For Message sending purpose For both Room & Group.
         public async Task<MessageResponse> SendMessage(string roomId, int senderId, string message)
-        {   
+        {
             var SenderDetails = await _userService.GetUserDetailsById(senderId);
 
             var roomDetails = await _chatroomService.GetChatRoomByRoomId(roomId);
 
             var SenderInfo = await _userService.IsUserExist(senderId);
-        
+
             var utcNow = DateTime.UtcNow;
-        
+
             var chatMessage = new ChatMessages
             {
                 RoomId = roomId,
@@ -362,17 +363,17 @@ namespace softskiller_chat_api.ChatHub
             chatMessage = await _chatroomService.AddMessages(chatMessage);
 
             int unreadCount = await _chatroomService.GetUnreadCount(roomId, senderId);
-        
+
             // **Convert UTC to sender's timezone for socket**
             var localTime = await _timezoneConverterService
                 .GetCurrentTimeByZoneId(utcNow, (int)SenderInfo.TimeZoneId);
-        
+
             var messages = new List<Messages>
             {
-                new Messages 
+                new Messages
                 {
                   MessageId = chatMessage.Id,
-                  UserId = senderId, 
+                  UserId = senderId,
                   UserName = SenderDetails.UserName,
                   UserImage = SenderDetails.ProfilePicture,
                   Message = message ,
@@ -380,25 +381,25 @@ namespace softskiller_chat_api.ChatHub
                   UnreadMessageCount = unreadCount,
                   CreatedDate = localTime.ToString("yyyy-MM-ddTHH:mm:ss") // ✅ Send local time
                 }};
-        
+
             var messageResponse = new MessageResponse
             {
                 RoomId = roomId,
                 RoomName = "",
                 Messages = messages
             };
-            
+
 
             await Clients.Group(roomId).SendAsync("ReceiveChatMessage", messageResponse);
-        
+
             // Optional push notification
             if (_appSettings.EnablePushNotificationForChat)
             {
                 var title = roomDetails.BatchId != 0 ? roomDetails.RoomName : SenderDetails.UserName;
                 var toMessage = roomDetails.BatchId != 0 ? $"{SenderDetails.UserName}: {message}" : message;
-        
+
                 await _chatroomService.SendPushNotification(roomId, senderId, title, toMessage);
-            }     
+            }
             return messageResponse;
         }
 
@@ -408,7 +409,7 @@ namespace softskiller_chat_api.ChatHub
             ActiveUser userexist = await _userService.GetActiveUserbyId(Userid);
 
             if (userexist != null)
-            {   
+            {
                 userexist.ConnectionId = Context.ConnectionId;
                 userexist.UserStatus = 1;
                 userexist.LastOnline = DateTime.Now;
@@ -425,7 +426,7 @@ namespace softskiller_chat_api.ChatHub
                     UserStatus = 1,
                     LastOnline = DateTime.Now
                 };
-    
+
                 await _userService.AddActiveUser(addtoActiveUsers);
             }
 
@@ -444,7 +445,7 @@ namespace softskiller_chat_api.ChatHub
         // AddtoGroup -- used to add Our ConnectionId into the particular Room (or) Group.
         public async Task AddtoGroup(string roomId)
         {
-            await Groups.AddToGroupAsync( Context.ConnectionId, roomId );
+            await Groups.AddToGroupAsync(Context.ConnectionId, roomId);
 
         }
 
@@ -467,18 +468,18 @@ namespace softskiller_chat_api.ChatHub
                 foreach (var roomId in roomids)
                 {
                     await Groups.AddToGroupAsync(Context.ConnectionId, roomId);
-                    await Clients.Group(roomId).SendAsync("OnConnected",userId, $"{username} is online.");
+                    await Clients.Group(roomId).SendAsync("OnConnected", userId, $"{username} is online.");
                 }
             }
 
             await base.OnConnectedAsync();
         }
-    
+
         /* OnDisconnectedAsync -- This method is automatically invoked, when the WebSocket is Aborted by the client,
-                                  In this state it can remove our Connection from all Groups and Rooms.*/ 
+                                  In this state it can remove our Connection from all Groups and Rooms.*/
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            
+
             Console.WriteLine("OnDisconnectedAsync");
 
             int userId = int.Parse(Context.User.FindFirst("id").Value);
@@ -494,7 +495,7 @@ namespace softskiller_chat_api.ChatHub
                 foreach (var roomId in roomids)
                 {
                     await Groups.RemoveFromGroupAsync(Context.ConnectionId, roomId);
-                    await Clients.Group(roomId).SendAsync("OnDisconnected",userId, $"{username} is offline.",DateTime.Now);
+                    await Clients.Group(roomId).SendAsync("OnDisconnected", userId, $"{username} is offline.", DateTime.Now);
                 }
             }
 
@@ -505,7 +506,7 @@ namespace softskiller_chat_api.ChatHub
         {
             var username = await _userService.GetUserNamebyId(userId);
 
-             var messagetypingResponse = new MessageTyping
+            var messagetypingResponse = new MessageTyping
             {
                 UserId = userId,
                 RoomId = roomId,
@@ -514,13 +515,13 @@ namespace softskiller_chat_api.ChatHub
 
             await Clients.Group(roomId).SendAsync("UserStartedTyping", messagetypingResponse);
         }
-    
+
         public async Task StopTyping(string roomId, int userId)
         {
             var username = await _userService.GetUserNamebyId(userId);
             await Clients.Group(roomId).SendAsync("UserStoppedTyping", userId);
         }
-          
+
         public async Task<MessageResponse> UpdateMessage(int messageId, string newMessage, int userId)
         {
             var existingMsg = await _chatroomService.GetMessageById(messageId);
@@ -585,8 +586,8 @@ namespace softskiller_chat_api.ChatHub
 
             var roomId = existingMsg.RoomId;
 
-            await _chatroomService.DeleteMessage(existingMsg); 
-    
+            await _chatroomService.DeleteMessage(existingMsg);
+
 
             var responseMessage = new Messages
             {

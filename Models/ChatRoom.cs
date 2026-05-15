@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace softskiller_chat_api.Models
+namespace acepickle_chat_api.Models
 {
     public class ChatRoom
     {

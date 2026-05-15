@@ -9,10 +9,10 @@ using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
-using softskiller_chat_api.Repository;
-using static softskiller_chat_api.Dto.DTORoomResponse;
+using acepickle_chat_api.Repository;
+using static acepickle_chat_api.Dto.DTORoomResponse;
 
-namespace softskiller_chat_api.Helper
+namespace acepickle_chat_api.Helper
 {
     public class NotificationService
     {
@@ -45,14 +45,14 @@ namespace softskiller_chat_api.Helper
                 object dataPayload = notificationData.RoomType == 1
                 ? new                                           // Private chat
                 {
-                    screen          = "PrivateChatList",
+                    screen = "PrivateChatList",
                     requestedUserId = notificationData.SenderId.ToString()
                 }
                 : new                                           // Group chat
                 {
-                    screen     = "GroupChatView",
-                    roomId     = notificationData.RoomId,
-                    batchId    = notificationData.BatchId.ToString()
+                    screen = "GroupChatView",
+                    roomId = notificationData.RoomId,
+                    batchId = notificationData.BatchId.ToString()
                 };
 
                 foreach (var token in deviceTokens)

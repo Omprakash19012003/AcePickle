@@ -5,10 +5,10 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using Microsoft.AspNetCore.Http.Features;
-using softskiller_chat_api.Helper;
-using softskiller_chat_api.Data;
+using acepickle_chat_api.Helper;
+using acepickle_chat_api.Data;
 
-namespace softskiller_chat_api.Dependencies
+namespace acepickle_chat_api.Dependencies
 {
     public static class ServiceCollection
     {
@@ -58,7 +58,7 @@ namespace softskiller_chat_api.Dependencies
 
             return services;
         }
-        
+
         public static IServiceCollection AddAppCors(this IServiceCollection services, IConfiguration configuration)
         {
             var allowedOrigins = configuration.GetSection("CorsOrigins:AllowedOrigins").Get<string[]>();

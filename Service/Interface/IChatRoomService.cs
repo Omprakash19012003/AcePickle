@@ -1,8 +1,8 @@
 using System.Collections;
-using softskiller_chat_api.Models;
-using static softskiller_chat_api.Dto.DTORoomResponse;
+using acepickle_chat_api.Models;
+using static acepickle_chat_api.Dto.DTORoomResponse;
 
-namespace softskiller_chat_api.Service
+namespace acepickle_chat_api.Service
 {
     public interface IChatRoomService
     {

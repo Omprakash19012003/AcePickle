@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace skiller_api.Helper
+namespace acepickle_api.Helper
 {
     public class Utils
     {

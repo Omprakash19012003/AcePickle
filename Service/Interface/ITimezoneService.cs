@@ -1,7 +1,7 @@
 
-using softskiller_chat_api.Models;
+using acepickle_chat_api.Models;
 
-namespace softskiller_chat_api.Services
+namespace acepickle_chat_api.Services
 {
     public interface ITimezoneService
 

@@ -1,11 +1,11 @@
 using System.Collections;
 using Microsoft.EntityFrameworkCore;
-using softskiller_chat_api.Data;
-using softskiller_chat_api.Helper;
-using softskiller_chat_api.Models;
-using static softskiller_chat_api.Dto.DTORoomResponse;
+using acepickle_chat_api.Data;
+using acepickle_chat_api.Helper;
+using acepickle_chat_api.Models;
+using static acepickle_chat_api.Dto.DTORoomResponse;
 
-namespace softskiller_chat_api.Repository
+namespace acepickle_chat_api.Repository
 {
     public class ChatRoomRepository : IChatRoomRepository
     {
@@ -107,11 +107,11 @@ namespace softskiller_chat_api.Repository
                 var lastMsg = lastMessages.FirstOrDefault(lm => lm.RoomId == r.ChatRoomId);
                 var msgDetail = lastMsg != null ? messageDetails.FirstOrDefault(md => md.Id == lastMsg.LastMessageId) : null;
                 var unreadData = unreadCounts.FirstOrDefault(uc => uc.RoomId == r.ChatRoomId);
-            
+
                 var convertedRoomCreatedDate = (await _timezoneConverterService
                     .GetCurrentTimeByZoneId(r.CreatedDate, (int)myUser.TimeZoneId))
                     .ToString("yyyy-MM-ddTHH:mm:ss");
-            
+
                 string? convertedLastMessageDate = null;
                 if (msgDetail != null)
                 {
@@ -119,7 +119,7 @@ namespace softskiller_chat_api.Repository
                         .GetCurrentTimeByZoneId(msgDetail.CreatedDate, (int)myUser.TimeZoneId))
                         .ToString("yyyy-MM-ddTHH:mm:ss");
                 }
-            
+
                 resultList.Add(new
                 {
                     r.ChatRoomId,
@@ -144,12 +144,12 @@ namespace softskiller_chat_api.Repository
                     LastMessagedDate = msgDetail?.CreatedDate
                 });
             }
-            
+
             // Then order by LastMessagedDate
             var finalResult = resultList
                 .OrderByDescending(r => r.GetType().GetProperty("LastMessagedDate")?.GetValue(r) ?? DateTime.MinValue)
                 .Select(r => r);
-            
+
             return finalResult;
         }
 
@@ -216,10 +216,10 @@ namespace softskiller_chat_api.Repository
 
         //ChatMessage
         public async Task<ChatMessages> AddMessages(ChatMessages chatObject)
-        {      
+        {
             _dbContext.ChatMessages.Add(chatObject);
             await _dbContext.SaveChangesAsync();
-        
+
             return chatObject;
         }
 
@@ -263,7 +263,7 @@ namespace softskiller_chat_api.Repository
         public async Task<MessageResponse> GetAllMessages(string roomId, int userId)
         {
             var userInfo = await _dbContext.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
-            
+
             var room = await _dbContext.ChatRooms
                 .Where(cr => cr.RoomId == roomId)
                 .FirstOrDefaultAsync();
@@ -289,7 +289,7 @@ namespace softskiller_chat_api.Repository
                     cm.IsEdited
                 }
             ).ToListAsync();
-        
+
             // Convert all messages to the user's timezone
             var messages = new List<Messages>();
             foreach (var m in chatMessages)
@@ -297,19 +297,19 @@ namespace softskiller_chat_api.Repository
                 // ⭐ Convert to user's timezone
                 var dt = await _timezoneConverterService
                     .GetCurrentTimeByZoneId(m.CreatedDate, (int)userInfo.TimeZoneId);
-        
-            messages.Add(new Messages
-            {
-                MessageId = m.Id,
-                UserId = m.UserId,
-                UserName = m.UserName,
-                UserImage = m.UserImage,
-                Message = m.Message,
-                IsEdited = m.IsEdited,
-                CreatedDate = dt.ToString("yyyy-MM-ddTHH:mm:ss") // FINAL OUTPUT
-            });
+
+                messages.Add(new Messages
+                {
+                    MessageId = m.Id,
+                    UserId = m.UserId,
+                    UserName = m.UserName,
+                    UserImage = m.UserImage,
+                    Message = m.Message,
+                    IsEdited = m.IsEdited,
+                    CreatedDate = dt.ToString("yyyy-MM-ddTHH:mm:ss") // FINAL OUTPUT
+                });
             }
-        
+
             return new MessageResponse
             {
                 RoomId = room.RoomId,
@@ -397,13 +397,13 @@ namespace softskiller_chat_api.Repository
 
             var activeUsers = await (
                 from chat in _dbContext.ChatRoomMappings
-                join course in _dbContext.CourseMappings 
+                join course in _dbContext.CourseMappings
                     on chat.UserId equals course.Userid
                 where chat.RoomId == roomId
                       && chat.UserId != currentUserId
                       && chat.Status == 1
                       && course.Status == 1
-                      && course.Validity > now        
+                      && course.Validity > now
                 select chat.UserId
             )
             .Distinct()
